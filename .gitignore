@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+.idea
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Ignore dynaconf secret files
+.secrets.*
+/ecp_errors.db
+/test_errors.db

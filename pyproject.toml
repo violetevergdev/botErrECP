@@ -1,0 +1,13 @@
+[project]
+name = "boterrecp"
+version = "0.1.0"
+description = "Program for reading messages from chat and writing them to the database"
+readme = "README.md"
+requires-python = ">=3.8.7"
+dependencies = [
+    "cryptography>=43.0.3",
+    "dynaconf>=3.2.6",
+    "pyinstaller>=6.11.1",
+    "python-telegram-bot>=21.6",
+    "sqlalchemy>=2.0.36",
+]
