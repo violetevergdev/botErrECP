@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 from sqlalchemy import create_engine, Column, Integer, String, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
-from datetime import datetime
+from datetime import timedelta, timezone
 from cryptography.fernet import Fernet
 
 from config import settings
@@ -40,7 +40,14 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_text = update.message.text
 
     if keyword_filter(message_text):
-        time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        time = update.message.date
+
+        moscow_offset = timedelta(hours=3)
+        moscow_tz = timezone(moscow_offset)
+
+        moscow_time = time.astimezone(moscow_tz)
+        formatted_time = moscow_time.strftime('%d-%m-%Y %H:%M:%S')
+
         try:
             theme = update.message.reply_to_message.forum_topic_created.name
         except Exception:
@@ -51,7 +58,7 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_ln=update.message.from_user.last_name,
             username=update.message.from_user.username or "Unknown",
             message=message_text,
-            datetime=time
+            datetime=formatted_time
         )
         session.add(new_message)
         session.commit()
